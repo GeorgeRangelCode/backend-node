@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const router = express.Router();
 
+const response = require("./network/response");
+
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,16 +14,18 @@ router.get("/message", function (req, res) {
   res.header({
     "custom-header": "Nuestro valor personalizado",
   });
-  res.send("Lista de mensajes");
+  // res.send("Lista de mensajes");
+  response.success(req, res, "Lista de mensajes");
 });
 
 router.post("/message", function (req, res) {
   console.log("req", req.query);
   console.log("req", req.body);
-  res.status(201).send({
-    error: "",
-    body: "Creado correctamente",
-  });
+  if (req.query.error == "ok") {
+    response.success(req, res, "Error simulado", 400);
+  } else {
+    response.success(req, res, "Creado correctamente", 201);
+  }
 });
 
 app.listen(3000);
