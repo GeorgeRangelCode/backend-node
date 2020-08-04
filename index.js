@@ -1,7 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
+const db = require("./db");
+
 const router = require("./network/routes");
+
+db(
+  "mongodb+srv://db_user_backend_node:db_user_backend_node@cluster0.ocf3j.mongodb.net/telegrom?retryWrites=true&w=majority"
+);
 
 const app = express();
 app.use(bodyParser.json());
